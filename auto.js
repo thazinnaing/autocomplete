@@ -244,6 +244,7 @@ const products=[
 const resultContainerTag=document.getElementsByClassName("resultContainer")[0]
 
 const autoCompleteTag=document.getElementsByClassName("autoCompleteInput")[0]
+const enterContainerTag=document.getElementsByClassName("enterContainer")[0]
 
 let filterproducts=[];
 
@@ -252,6 +253,7 @@ autoCompleteTag.addEventListener("keyup", (event)=>{
        navigateAndSelectProduct(event.key);
        return;
     }
+    enterContainerTag.innerHTML=""
 
 
     resultContainerTag.innerHTML="";
@@ -306,9 +308,31 @@ const navigateAndSelectProduct=(key)=>{
         productItemSelectContainer.classList.add("selected");
 
     }else if(key ==="ArrowUp"){
+        if (indextoselect === -1){
+            return;
+        }
+        if (indextoselect === 0){
+            deselectProduct();
+            indextoselect=-1;
+            return;
+        }
+        indextoselect-=1;
+        deselectProduct();
+        const productItemContainer=selectProduct(indextoselect);
+        productItemContainer.classList.add("selected");
+        
+
 
     }
     else{
+        const enterproduct=selectProduct(indextoselect);
+        deselectProduct();
+        enterContainerTag.innerHTML='';
+        const enterproductselection=filterproducts[indextoselect].title;
+        enterContainerTag.append(enterproductselection)
+        enterContainerTag.style.color="maroon";
+        indextoselect=-1;
+
 
     }
 }
